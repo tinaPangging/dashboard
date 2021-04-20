@@ -1,21 +1,15 @@
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import Link from "@material-ui/core/Link";
-import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
-import jwt from "jsonwebtoken";
 
 const Navbar = props => {
-  const { history, isAuthenticated, setIsAuthenticated,user } = props;
- 
- 
+  const { history, isAuthenticated, setIsAuthenticated, user } = props;
+  console.log(user,'user')
   return (
-
-    <AppBar style={{ background: 'black' }}>
+    <AppBar style={{ background: "black" }}>
       <Toolbar>
+      <div style={{ flex: 1 }} />
         <Link
           href={"/home"}
           onClick={e => {
@@ -26,22 +20,21 @@ const Navbar = props => {
         >
           Home
         </Link>
-        <div style={{ flex: 1 }} />
-        {isAuthenticated && 
-         <Link
-         href={"/dashboard"}
-         onClick={e => {
-           e.preventDefault();
-           history.push("/dashboard");
-         }}
-         style={{ color: "#f5a940" }}
-       >
-         Dashboard
-       </Link>
-        }
        
+        {isAuthenticated && (
+          <Link
+            href={"/dashboard"}
+            onClick={e => {
+              e.preventDefault();
+              history.push("/dashboard");
+            }}
+            style={{ color: "#f5a940", padding: 10 }}
+          >
+            Dashboard
+          </Link>
+        )}
 
-        {isAuthenticated ?
+        {isAuthenticated ? (
           <Link
             href={"/login"}
             onClick={e => {
@@ -50,10 +43,11 @@ const Navbar = props => {
               setIsAuthenticated(false);
               history.push("/login");
             }}
-            style={{ color: "#f5a940", padding: 10 }}
+            style={{ color: "#f5a940", paddingRight: 10 }}
           >
             Logout
-       </Link> :
+          </Link>
+        ) : (
           <Link
             href={"/login"}
             onClick={e => {
@@ -63,10 +57,8 @@ const Navbar = props => {
             style={{ color: "#f5a940", padding: 10 }}
           >
             Login
-      </Link>
-        }
-
-
+          </Link>
+        )}
       </Toolbar>
     </AppBar>
   );

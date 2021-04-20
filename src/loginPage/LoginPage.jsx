@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { credentials } from "../data/credentials";
 import jwt from "jsonwebtoken";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = props => {
-    const { setIsAuthenticated, isAuthenticated } = props;
+    const { setIsAuthenticated, user, setUser} = props;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null)
@@ -38,9 +38,7 @@ const Login = props => {
         return errors;
     };
 
-    
     const handleSubmit = e => {
-
         e.preventDefault();
         let errors = validateForm(email, password);
         let match = false
@@ -51,10 +49,11 @@ const Login = props => {
         else {
             credentials.forEach(user => {
                 if (email === user.email && password === user.password) {
-                    // console.log(user, "user");
+                    
                     match = true
-                    const token = jwt.sign({ email: email }, "this!is@our#secret$to%the^dashboard*");
+                    const token = jwt.sign({ email: email}, "this!is@our#secret$to%the^dashboard*");
                     sessionStorage.setItem("auth-token", token);
+                    setUser({firstName: user.firstName, lastName: user.lastName})
                     setIsAuthenticated(true)
                     props.history.push("/dashboard");
                 }
@@ -70,7 +69,6 @@ const Login = props => {
 
     return (
         <Grid style={{ marginTop: 140 }} justify="center" alignItems="center" container>
-            {/* welcome to Login page */}
             <form onSubmit={handleSubmit} className={classes.root}>
                 <TextField
                     placeholder="email"

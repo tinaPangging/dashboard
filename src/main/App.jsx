@@ -4,7 +4,7 @@ import LandingPage from "../landingPage/LandingPage";
 import Login from "../loginPage/LoginPage";
 import Dashboard from "../dashboardPage/Dashboard";
 import Navbar from "../navbar/Navbar";
-import ProtectedRoute from "../authentication/ProtectedRoute";
+// import ProtectedRoute from "../authentication/ProtectedRoute";
 import jwt from "jsonwebtoken";
 
 const App = props => {
@@ -12,7 +12,8 @@ const App = props => {
   const [isAuthenticated, setIsAuthenticated] = useState(sessionStorage.getItem("auth-token")?true:false);
   const [user, setUser] = useState([]);
 
-
+  console.log(user,'user')
+  
   useEffect(() => {
     if (sessionStorage && sessionStorage.getItem("auth-token")) {
       const sessionStoredToken = sessionStorage.getItem("auth-token");
@@ -21,7 +22,8 @@ const App = props => {
           sessionStoredToken,
           "this!is@our#secret$to%the^dashboard*"
         );
-        setUser(decoded);
+        // console.log(decoded,'decoded')
+        // setUser(decoded);
         setIsAuthenticated(true);
        
       } catch (error) {
@@ -29,7 +31,7 @@ const App = props => {
         setIsAuthenticated(false);
       }
     }
-  }, [sessionStorage, sessionStorage.getItem("auth-token")]);
+  }, []);
 
   return (
     <main>
@@ -55,6 +57,8 @@ const App = props => {
             <Login
               {...props}
               setIsAuthenticated={setIsAuthenticated}
+              user={user}
+              setUser={setUser}
             />
           )}
         />
