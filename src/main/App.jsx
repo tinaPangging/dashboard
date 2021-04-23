@@ -4,16 +4,15 @@ import LandingPage from "../landingPage/LandingPage";
 import Login from "../loginPage/LoginPage";
 import Dashboard from "../dashboardPage/Dashboard";
 import Navbar from "../navbar/Navbar";
-// import ProtectedRoute from "../authentication/ProtectedRoute";
 import jwt from "jsonwebtoken";
 
 const App = props => {
-
-  const [isAuthenticated, setIsAuthenticated] = useState(sessionStorage.getItem("auth-token")?true:false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    sessionStorage.getItem("auth-token") ? true : false
+  );
   const [user, setUser] = useState([]);
 
-  console.log(user,'user')
-  
+
   useEffect(() => {
     if (sessionStorage && sessionStorage.getItem("auth-token")) {
       const sessionStoredToken = sessionStorage.getItem("auth-token");
@@ -22,16 +21,14 @@ const App = props => {
           sessionStoredToken,
           "this!is@our#secret$to%the^dashboard*"
         );
-        // console.log(decoded,'decoded')
-        // setUser(decoded);
+        setUser(decoded);
         setIsAuthenticated(true);
-       
       } catch (error) {
         console.log(error.message, "error");
         setIsAuthenticated(false);
       }
     }
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <main>
@@ -42,35 +39,37 @@ const App = props => {
         user={user}
       />
       <Switch>
-        {/* <Route path="/" component={LandingPage} exact /> */}
-        {/* <Route path="/login" component={Login}/> */}
         <Route
           path="/home"
           render={props => (
-            <LandingPage {...props} isAuthenticated={isAuthenticated}  />
+            <LandingPage {...props} isAuthenticated={isAuthenticated} />
           )}
           exact
         />
         <Route
           path="/login"
-          render={props => (
-            <Login
-              {...props}
-              setIsAuthenticated={setIsAuthenticated}
-              user={user}
-              setUser={setUser}
-            />
-          )}
+          render={props =>
+            {
+              if (!isAuthenticated) {
+                return (
+                  <Login
+                    {...props}
+                    setIsAuthenticated={setIsAuthenticated}
+                    user={user}
+                    setUser={setUser}
+                  />
+                );
+              }
+              else {
+                return (
+                  <Redirect to="/home"/>
+                )
+              }
+            }
+          }
         />
-        {/* <Route path="/dashboard" component={Dashboard} /> */}
-        {/* <ProtectedRoute
-          path="/dashboard"
-          component={Dashboard}
-          isAuthenticated={isAuthenticated}
-          setIsAuthenticated={setIsAuthenticated}
-        /> */}
         <Route
-        exact
+          exact
           path="/dashboard"
           render={() => {
             if (isAuthenticated) {
@@ -78,16 +77,14 @@ const App = props => {
                 <Dashboard
                   to="/dashboard"
                   setIsAuthenticated={setIsAuthenticated}
-                  
                 />
               );
-            }
-            else{
-             return <Redirect to="/login"/>
+            } else {
+              return <Redirect to="/login" />;
             }
           }}
         />
-        <Route  path="*">
+        <Route path="*">
           <Redirect to="/home" />
         </Route>
         />

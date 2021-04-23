@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
-import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -12,23 +11,36 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import TablePagingEnd from '../utilities/TablePagingFooter';
 import TableFooter from '@material-ui/core/TableFooter';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const TableCell = withStyles({
     root: {
         borderBottom: "none",
     },
-    // footer: {
-    //    alignSelf: 'center'
-    // },
-   
 })(MuiTableCell);
 
 
 const useStyles = makeStyles({
     tableProfile: {
-        maxWidth: 550,
-        // border: '1px solid #dddddd'
+        maxWidth: 550
     },
+    xsDash: {
+        backgroundColor: 'white',
+        boxShadow: '1px 1px 25px 10px #674932',
+        borderRadius: '5px'
+    },
+    smDash: {
+        marginLeft: 40, 
+        marginRight: 40, 
+        marginTop: 10, 
+        backgroundColor: 'white', 
+        boxShadow: '1px 1px 25px 10px #674932', 
+        borderRadius: '5px'
+    },
+    dataRender :{
+        marginTop: 100, 
+        padding: 10
+    }
 });
 
 const Dashboard = props => {
@@ -37,6 +49,8 @@ const Dashboard = props => {
     const [page, setPage] = useState(0);
     const [isLoading, setLoading] = useState(false);
     const classes = useStyles();
+    const theme = useTheme();
+    const isXS = useMediaQuery(theme.breakpoints.down("xs"));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,11 +104,10 @@ const Dashboard = props => {
         <>
             {!isLoading ?
                 (
-                    <Paper>
-                        <Grid style={{ marginTop: 100, padding: 10 }} justify="center" alignItems="center" container>
+                    <Grid className={isXS ? classes.xsDash : classes.smDash} >
+                        <Grid className={classes.dataRender} justify="center" alignItems="center" container>
                             {renderData(data)}
                         </Grid>
-                        
                         <Table>
                             <TableFooter>
                                 <TableRow>
@@ -110,12 +123,12 @@ const Dashboard = props => {
                                 </TableRow>
                             </TableFooter>
                         </Table>
-                    </Paper>
+                    </Grid>
                 )
                 :
                 (
                     <Grid container justify="center" style={{ marginTop: 200 }}>
-                        <CircularProgress />
+                        <CircularProgress style={{ color: "#674932" }} />
                     </Grid>
                 )
 

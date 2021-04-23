@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  background-image: 'https://cdn1.vectorstock.com/i/1000x1000/20/75/programming-computers-seamless-background-vector-2482075.jpg';
+  position: fixed;
+  min-width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .App-logo {
