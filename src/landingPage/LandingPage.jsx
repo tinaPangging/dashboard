@@ -15,23 +15,26 @@ const useStyles = makeStyles((theme) => ({
   descriptionXS: {
     color: "#674932"
   },
-  login:{
+  linkText: {
     color: "#c5a287",
     cursor: "pointer"
   },
-  mainBody:{
-    padding: 20, 
-    width: '900px', 
-    textAlign: 'justify', 
+  link:{
+    textDecoration: 'none'
+  },
+  mainBody: {
+    padding: 20,
+    width: '900px',
+    textAlign: 'justify',
     fontFamily: 'Optima',
-    backgroundColor:'white', 
-    boxShadow: '1px 1px 25px 10px #674932', 
+    backgroundColor: 'white',
+    boxShadow: '1px 1px 25px 10px #674932',
     borderRadius: '5px'
   },
-  hr:{
-    height: '4px', 
-    borderWidth: '0', 
-    backgroundColor: '#c5a287', 
+  hr: {
+    height: '4px',
+    borderWidth: '0',
+    backgroundColor: '#c5a287',
     borderRadius: '3px'
   }
 }));
@@ -47,7 +50,7 @@ const LandingPage = props => {
   return (
     <Grid style={{ marginTop: 120 }} justify="center" alignItems="center" container>
       <Grid className={classes.mainBody} >
-        <hr className={classes.hr}/>
+        <hr className={classes.hr} />
         <Grid spacing={3} style={{ padding: 20 }} container>
           <Grid sm={6} xs={12} className={isXS ? classes.descriptionXS : classes.description} item>
             {description.description1}
@@ -58,10 +61,12 @@ const LandingPage = props => {
               <span onClick={e => {
                 e.preventDefault();
                 props.history.push('/login');
-              }} className={classes.login}>
+              }} className={classes.linkText}>
                 {description.login}</span>}</span>
             {description.description3}
-            <span>{description.credentials}</span>
+            <a href="https://github.com/tinaPangging/dashboard/blob/main/src/data/credentials.js" className={classes.link}>
+              <span className={classes.linkText}>{description.credentials}</span>
+            </a>
             {description.description4}
           </Grid>
           <Grid sm={6} xs={12} item>
@@ -74,7 +79,7 @@ const LandingPage = props => {
             </CardActionArea>
           </Grid>
         </Grid>
-        <hr className={classes.hr}/>
+        <hr className={classes.hr} />
       </Grid>
     </Grid>
   );
