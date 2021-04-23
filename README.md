@@ -14,7 +14,7 @@ Project is created with:
 * [Material-UI](https://material-ui.com/)
 * [Random user API](https://randomuser.me/)
 * [Axios](https://www.npmjs.com/package/axios)
-* [jwt](https://www.npmjs.com/package/react-jwt)
+* [jwt](https://www.npmjs.com/package/jsonwebtoken)
 	
 ### Setup
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
