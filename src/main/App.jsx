@@ -7,12 +7,14 @@ import Navbar from "../navbar/Navbar";
 import jwt from "jsonwebtoken";
 
 const App = props => {
+
+  // initializing isAuthenticated, if auth token is present setting it to true else false  
   const [isAuthenticated, setIsAuthenticated] = useState(
     sessionStorage.getItem("auth-token") ? true : false
   );
   const [user, setUser] = useState([]);
 
-
+  //checks isAuthenticated, checks if the credentials are valid, gets the user details
   useEffect(() => {
     if (sessionStorage && sessionStorage.getItem("auth-token")) {
       const sessionStoredToken = sessionStorage.getItem("auth-token");
@@ -38,6 +40,11 @@ const App = props => {
         setIsAuthenticated={setIsAuthenticated}
         user={user}
       />
+      {/* adding routes for landing page, login page and dashboard
+        * login page is accessed only when the user is not logged in, redirects to home page
+        * if isAutenticated is false, the user does not have any access to dashboardpage, redirects to login page
+      */}
+     
       <Switch>
         <Route
           path="/home"
@@ -55,8 +62,6 @@ const App = props => {
                   <Login
                     {...props}
                     setIsAuthenticated={setIsAuthenticated}
-                    user={user}
-                    setUser={setUser}
                   />
                 );
               }

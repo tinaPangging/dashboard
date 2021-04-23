@@ -36,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// displays the description of the application with an image
+
 const LandingPage = props => {
   const { isAuthenticated } = props;
   const classes = useStyles();
@@ -44,7 +46,6 @@ const LandingPage = props => {
 
   return (
     <Grid style={{ marginTop: 120 }} justify="center" alignItems="center" container>
-
       <Grid className={classes.mainBody} >
         <hr className={classes.hr}/>
         <Grid spacing={3} style={{ padding: 20 }} container>

@@ -72,6 +72,7 @@ const Login = props => {
     const theme = useTheme();
     const isXS = useMediaQuery(theme.breakpoints.down("xs"));
 
+    //validating the input email and password and generating error messages if the validate fails
     const validateForm = (email, password) => {
         let errors = {};
         if (!email) {
@@ -83,6 +84,12 @@ const Login = props => {
         return errors;
     };
 
+    
+    /* if the email and password are present in the predefined credentials array, auth token is generated with the secret key
+     * and stored in session storage.
+     * if the email id and password dont match, throws an error 
+    */
+
     const handleSubmit = e => {
         e.preventDefault();
         let errors = validateForm(email, password);
@@ -93,7 +100,6 @@ const Login = props => {
         else {
             credentials.forEach(user => {
                 if (email === user.email && password === user.password) {
-
                     match = true
                     const token = jwt.sign({ email: email, firstname: user.firstName, lastname: user.lastName }, "this!is@our#secret$to%the^dashboard*");
                     sessionStorage.setItem("auth-token", token);
@@ -102,7 +108,6 @@ const Login = props => {
                 }
             }
             );
-
             if (!match) {
                 setError({ errorMsg: "Incorrect email and/or password. Please try again !" })
             }
@@ -110,8 +115,9 @@ const Login = props => {
 
     };
 
+    //displays the login form
+    
     return (
-
         <Grid style={{ marginTop: 140 }} justify="center" alignItems="center" container>
                 <form onSubmit={handleSubmit} className={isXS ? classes.xslogin : classes.smLogin}>
                     <TextField

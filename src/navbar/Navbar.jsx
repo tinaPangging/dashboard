@@ -56,21 +56,17 @@ const useStyles = makeStyles(theme => ({
 
 const Navbar = props => {
   const { history, isAuthenticated, setIsAuthenticated, user } = props;
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
   const classes = useStyles();
   const name = user.firstname + " " + user.lastname;
 
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
-
-  // return focus to the button when we transitioned from !open -> open
-
-  //const prevOpen = useRef(open);
-
+  //toggles the user information on clicking the user avatar
   const handleToggle = () => {
-    //   console.log(prevOpen)
     setOpen(open => !open);
   };
 
+  //makes the user information disappear 
   const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -78,6 +74,10 @@ const Navbar = props => {
     setOpen(false);
   };
 
+  /* displays the navigation header
+     initials function returns the initial of the user
+  */
+ 
   return (
     <AppBar className={classes.appBar}>
       <Toolbar>
